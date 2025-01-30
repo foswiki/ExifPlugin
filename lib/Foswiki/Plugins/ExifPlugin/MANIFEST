@@ -1,0 +1,7 @@
+!noci
+data/System/ExifPlugin.txt 0644
+lib/Foswiki/Plugins/ExifPlugin/Core.pm 0644
+lib/Foswiki/Plugins/ExifPlugin/DEPENDENCIES 0644
+lib/Foswiki/Plugins/ExifPlugin/MANIFEST 0644
+lib/Foswiki/Plugins/ExifPlugin.pm 0644
+pub/System/ExifPlugin/exif.png 0644

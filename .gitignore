@@ -1,0 +1,13 @@
+data/**/*,v
+pub/**/*,v
+pub/**/igp_*
+pub/**/genpdf_*
+
+/ExifPlugin.md5
+/ExifPlugin.sha1
+/ExifPlugin.tgz
+/ExifPlugin.txt
+/ExifPlugin.zip
+/ExifPlugin_installer
+/ExifPlugin_installer.pl
+

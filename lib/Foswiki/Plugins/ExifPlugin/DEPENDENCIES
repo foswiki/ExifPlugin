@@ -1,0 +1,2 @@
+Image::ExifTool,>=12.50,cpan,Required
+MIME::Base64,>0,cpan,Required

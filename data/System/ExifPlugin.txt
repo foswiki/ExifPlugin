@@ -1,0 +1,80 @@
+%META:TOPICINFO{author="micha" comment="reprev" date="1738249068" format="1.1" reprev="2" version="2"}%
+---+!! %TOPIC%
+%FORMFIELD{"Description"}%
+
+%TOC%
+
+%IMAGE{"exif.png" align="right" type="plain" width="300"}%
+---++ Usage
+
+This plugin reads metadata stored in images stored as [[https://en.wikipedia.org/wiki/Exif][Exchangeable Image File Format]]. Typical information
+contains the 
+
+   * date
+   * size
+   * geometry 
+   * geo location
+   * name of the camera and its processing parameters
+   * rotation orientation 
+   * color space 
+   * etc
+
+Not every image contains all information, sometimes EXIF data has been stripped off from images, e.g. for privacy reasons.
+The =%EXIF= macro takes the name of an image attached to a topic and formats it according to your. needs.
+
+---++ Examples
+
+You type:
+<verbatim>
+%EXIF{"exif.png" raw="on"}%
+</verbatim>
+
+You get:
+%IF{"context ExifPluginEnabled"
+   then="$percntEXIF{\"exif.png\" raw=\"on\"}$percnt"
+   else="%RED%not installed%ENDCOLOR%"
+}%
+
+---++ Syntax
+
+<verbatim>%EXIF{"attachment.png"
+   web="web"
+   topic="web.topic"
+   format="..."
+   raw="on/off"
+   coord_format="..."
+}%</verbatim>
+
+| *Parameter* | *Description* | *Default* |
+| "..." | attachment | |
+| web="..." | web parameter | current web |
+| topic="..." | topic from where the attachment is fetched | current topic |
+| format="..." | format string, see below | =$FileName, $FileSize= |
+| raw="on/off" | boolean to display all of the available exif data in raw format | =off= |
+| coord_format="..." | sprintf format of the coordinates | =%+.8f= |
+
+The =format="..."= parameter may contain keys prefixed by a dollar sign, e.g. =$FileName= or =$FileType=.
+Use the =raw="on"= parameter to see all of the available keys. 
+
+---++ Installation Instructions
+%$INSTALL_INSTRUCTIONS%
+
+---++ Dependencies
+%$DEPENDENCIES%
+
+---++ Change History
+
+%TABLE{columnwidths="7em" tablewidth="100%"}%
+|  30 Jan 2025 | initial release |
+
+%META:FORM{name="PackageForm"}%
+%META:FIELD{name="Author" title="Author" value="Michael Daum"}%
+%META:FIELD{name="Version" title="Version" value="%25$VERSION%25"}%
+%META:FIELD{name="Release" title="Release" value="%25$RELEASE%25"}%
+%META:FIELD{name="Description" title="Description" value="%25$SHORTDESCRIPTION%25"}%
+%META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/%25$ROOTMODULE%25"}%
+%META:FIELD{name="Copyright" title="Copyright" value="2023-2025, Michael Daum, All Rights Reserved"}%
+%META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
+%META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%25$ROOTMODULE%25"}%
+%META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%25$ROOTMODULE%25"}%
+%META:FILEATTACHMENT{name="exif.png" attachment="exif.png" attr="" comment="" date="1738248423" size="65598" user="micha" version="2"}%
