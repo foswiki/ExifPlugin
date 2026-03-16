@@ -1,6 +1,6 @@
 # Plugin for Foswiki - The Free and Open Source Wiki, https://foswiki.org/
 #
-# ExifPlugin is Copyright (C) 2023-2025 Michael Daum http://michaeldaumconsulting.com
+# ExifPlugin is Copyright (C) 2023-2026 Michael Daum http://michaeldaumconsulting.com
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -90,22 +90,39 @@ sub EXIF {
     return "<verbatim>" . join("\n", @result) . "</verbatim>";
   }
 
-  my $result = $params->{format} // '$FileName, $FileSize';
+  my $format = $params->{format};
 
-  while (my ($key, $val) = each %$info) {
-    next if $key =~ /^(Directory|FilePermissions|FileAccessDate|FileInodeChangeDate|FileModifyDate)$/;
-    if (ref $val eq 'ARRAY') {
-      $val = join(', ', @$val);
-    } elsif (ref $val eq 'SCALAR') {
-      $val = encode_base64($val, "");
-      $val =~ s/\s+$//;
-      $val =~ s/^\s+//;
+  if ($format) {
+    while (my ($key, $val) = each %$info) {
+      next if $key =~ /^(Directory|FilePermissions|FileAccessDate|FileInodeChangeDate|FileModifyDate)$/;
+      if (ref $val eq 'ARRAY') {
+        $val = join(', ', @$val);
+      } elsif (ref $val eq 'SCALAR') {
+        $val = encode_base64($val, "");
+        $val =~ s/\s+$//;
+        $val =~ s/^\s+//;
+      }
+      $key =~ s/ \((\d+)\)$/_$1/;
+      $format =~ s/\$$key\b/$val/g;
     }
-    $key =~ s/ \((\d+)\)$/_$1/;
-    $result =~ s/\$$key\b/$val/g;
+  } else {
+    my @lines = ();
+    foreach my $key (sort keys %$info) {
+      next if $key =~ /^(Directory|FilePermissions|FileAccessDate|FileInodeChangeDate|FileModifyDate)$/;
+      my $val = $info->{$key};
+      if (ref $val eq 'ARRAY') {
+        $val = join(', ', @$val);
+      } elsif (ref $val eq 'SCALAR') {
+        $val = encode_base64($val, "");
+        $val =~ s/\s+$//;
+        $val =~ s/^\s+//;
+      }
+      push @lines, "<tr><th>$key:</th><td>$val</td></tr>"
+    }
+    $format = scalar(@lines)? "<table class='foswikiLayoutTable exifTable'>\n".join("\n", @lines)."\n</table>\n" : "";
   }
 
-  return Foswiki::Func::decodeFormatTokens($result);
+  return Foswiki::Func::decodeFormatTokens($format);
 }
 
 sub exifTool {
